@@ -83,7 +83,7 @@ export default function DashboardPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Main Chart Area */}
-        <GlassCard className="lg:col-span-2 p-6 flex flex-col min-h-[350px]">
+        <GlassCard className="lg:col-span-2 p-6 flex flex-col">
           <div className="flex items-center justify-between mb-8 shrink-0">
             <h2 className="text-lg font-semibold text-white">{chartActivity}</h2>
             <button className="text-sm text-primary hover:text-primary-focus transition-colors font-medium flex items-center gap-1">
@@ -92,7 +92,7 @@ export default function DashboardPage() {
           </div>
           
           {/* Pure CSS Bar Chart */}
-          <div className="flex-1 flex justify-between gap-2 sm:gap-6 pt-4 pb-2 border-b border-white/10 relative">
+          <div className="h-48 sm:h-64 flex justify-between gap-2 sm:gap-6 pt-4 pb-2 border-b border-white/10 relative mt-auto">
             {/* Y-axis grid lines (decorative) */}
             <div className="absolute inset-x-0 bottom-1/3 border-t border-white/5 pointer-events-none w-full" />
             <div className="absolute inset-x-0 bottom-2/3 border-t border-white/5 pointer-events-none w-full" />
