@@ -17,17 +17,25 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   const [, startTransition] = useTransition();
 
   useEffect(() => {
-    // Sync from localStorage AFTER hydration
-    const stored = localStorage.getItem("language");
-    if (stored === "en" || stored === "es") {
-      startTransition(() => {
-        setLanguageState(stored as Language);
-      });
+    // Sync from localStorage AFTER hydration (wrapped in try/catch for Safari Incognito)
+    try {
+      const stored = localStorage.getItem("language");
+      if (stored === "en" || stored === "es") {
+        startTransition(() => {
+          setLanguageState(stored as Language);
+        });
+      }
+    } catch (error) {
+      console.warn("localStorage is blocked");
     }
   }, []);
 
   const setLanguage = (lang: Language) => {
-    localStorage.setItem("language", lang);
+    try {
+      localStorage.setItem("language", lang);
+    } catch (error) {
+      console.warn("localStorage is blocked");
+    }
     startTransition(() => {
       setLanguageState(lang);
     });

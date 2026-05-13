@@ -92,23 +92,20 @@ export default function DashboardPage() {
           </div>
           
           {/* Pure CSS Bar Chart */}
-          <div className="h-48 sm:h-64 flex justify-between gap-2 sm:gap-6 pt-4 pb-2 border-b border-white/10 relative mt-auto">
+          <div className="h-48 sm:h-64 grid grid-cols-7 gap-2 sm:gap-6 pt-4 pb-8 border-b border-white/10 relative mt-auto">
             {/* Y-axis grid lines (decorative) */}
             <div className="absolute inset-x-0 bottom-1/3 border-t border-white/5 pointer-events-none w-full" />
             <div className="absolute inset-x-0 bottom-2/3 border-t border-white/5 pointer-events-none w-full" />
             
             {barHeights.map((h, i) => (
-              <div key={i} className="flex flex-col items-center flex-1 gap-3 group relative h-full">
-                {/* Bar Container */}
-                <div className="flex-1 w-full relative min-h-0">
-                  <div 
-                    className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-12 bg-primary/20 hover:bg-primary/40 border border-primary/30 border-b-0 rounded-t-md transition-all duration-300 overflow-hidden"
-                    style={{ height: `${h}%` }}
-                  >
-                    <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-primary/40 to-transparent h-full" />
-                  </div>
+              <div key={i} className="relative h-full group">
+                <div 
+                  className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-12 bg-primary/20 hover:bg-primary/40 border border-primary/30 border-b-0 rounded-t-md transition-all duration-300 overflow-hidden"
+                  style={{ height: `${h}%` }}
+                >
+                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-primary/40 to-transparent h-full" />
                 </div>
-                <span className="text-xs text-white/40 group-hover:text-white/70 transition-colors shrink-0">{barLabels[i]}</span>
+                <span className="absolute -bottom-7 left-1/2 -translate-x-1/2 text-xs text-white/40 group-hover:text-white/70 transition-colors">{barLabels[i]}</span>
               </div>
             ))}
           </div>
