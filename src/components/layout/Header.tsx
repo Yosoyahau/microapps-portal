@@ -32,11 +32,38 @@ export function Header({ onToggleMobileSidebar }: HeaderProps) {
         const first = currentUser.user_metadata?.first_name || "";
         const last = currentUser.user_metadata?.last_name || "";
         setUserName(first ? `${first} ${last}`.trim() : currentUser.email || "User");
-        setAvatarUrl(currentUser.user_metadata?.avatar_url || null);
+        
+        let url = currentUser.user_metadata?.avatar_url || null;
+        
         if (first && last) {
           setUserInitials(`${first[0]}${last[0]}`.toUpperCase());
         } else if (currentUser.email) {
           setUserInitials(currentUser.email[0].toUpperCase());
+        }
+
+        if (url) {
+          setAvatarUrl(url);
+        } else if (currentUser.email) {
+          // Attempt to load Gravatar
+          try {
+            const msgBuffer = new TextEncoder().encode(currentUser.email.trim().toLowerCase());
+            const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+            
+            const gravatarUrl = `https://www.gravatar.com/avatar/${hashHex}?d=404`;
+            
+            // Check if user has a Gravatar
+            const img = new window.Image();
+            img.onload = () => setAvatarUrl(gravatarUrl);
+            img.onerror = () => setAvatarUrl(null); // Fallback to initials
+            img.src = gravatarUrl;
+          } catch (e) {
+            console.error("Gravatar error:", e);
+            setAvatarUrl(null);
+          }
+        } else {
+          setAvatarUrl(null);
         }
       }
     }
