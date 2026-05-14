@@ -1,11 +1,30 @@
 @import "tailwindcss";
 
+:root {
+  /* Dark Theme (Default) */
+  --app-base-100: #050014;
+  --app-base-200: #0A0520;
+  --app-base-300: #150D30;
+  --app-base-content: #E8E0FF;
+  
+  /* Primary Color (Dynamic via Context) */
+  --app-primary: #7C3AED;
+}
+
+[data-theme="light"] {
+  /* Light Theme */
+  --app-base-100: #F8FAFC;
+  --app-base-200: #FFFFFF;
+  --app-base-300: #F1F5F9;
+  --app-base-content: #0F172A;
+}
+
 @theme {
-  --color-base-100: #050014;
-  --color-base-200: #0A0520;
-  --color-base-300: #150D30;
-  --color-base-content: #E8E0FF;
-  --color-primary: #7C3AED;
+  --color-base-100: var(--app-base-100);
+  --color-base-200: var(--app-base-200);
+  --color-base-300: var(--app-base-300);
+  --color-base-content: var(--app-base-content);
+  --color-primary: var(--app-primary);
   --color-primary-content: #FFFFFF;
   --color-accent-warm: #F97316;
   --color-accent-pink: #EC4899;
@@ -13,5 +32,5 @@
 }
 
 body {
-  @apply bg-base-100 text-base-content antialiased selection:bg-primary/30 selection:text-white;
+  @apply bg-base-100 text-base-content antialiased selection:bg-primary/30 selection:text-primary;
 }
