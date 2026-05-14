@@ -49,6 +49,7 @@ export default function SignUpPage() {
         type: "error",
       });
     } else {
+      localStorage.setItem("showWelcome", "true");
       toast({
         title: language === "en" ? "Check your email to verify your account." : "Revisa tu correo para verificar tu cuenta.",
         type: "success",

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { Header } from "@/components/layout/Header";
+import { WelcomeConfetti } from "@/components/ui/WelcomeConfetti";
 
 export default function DashboardLayout({
   children,
@@ -56,6 +57,7 @@ export default function DashboardLayout({
           </div>
         </main>
       </div>
+      <WelcomeConfetti />
     </div>
   );
 }
