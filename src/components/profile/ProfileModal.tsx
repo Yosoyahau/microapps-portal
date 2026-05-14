@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { User } from "@supabase/supabase-js";
 import { X, Loader2, Camera } from "lucide-react";
 import { useTranslation } from "@/hooks/useTranslation";
@@ -29,8 +30,10 @@ export function ProfileModal({ isOpen, onClose, user, onUpdate }: ProfileModalPr
       setLocalAvatar(user.user_metadata.avatar_url);
     }
   }, [user]);
-  
-  if (!isOpen || !user) return null;
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
+  if (!isOpen || !user || !mounted) return null;
 
   const currentAvatar = localAvatar || user.user_metadata?.avatar_url;
   const firstName = user.user_metadata?.first_name || "";
@@ -91,10 +94,12 @@ export function ProfileModal({ isOpen, onClose, user, onUpdate }: ProfileModalPr
     }
   };
 
-  return (
+  if (typeof document === 'undefined') return null;
+
+  return createPortal(
     <>
-      <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm" onClick={onClose} />
-      <div className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-50 w-full max-w-md p-6 rounded-2xl bg-base-200 border border-white/10 shadow-2xl">
+      <div className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm" onClick={onClose} />
+      <div className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-[100] w-full max-w-md p-6 rounded-2xl bg-base-200 border border-white/10 shadow-2xl">
         <div className="flex items-center justify-between mb-8">
           <h2 className="text-xl font-semibold text-white">{t.title}</h2>
           <button onClick={onClose} className="p-2 -mr-2 rounded-lg text-white/50 hover:text-white hover:bg-white/5 transition-colors">
@@ -140,6 +145,7 @@ export function ProfileModal({ isOpen, onClose, user, onUpdate }: ProfileModalPr
           </div>
         </div>
       </div>
-    </>
+    </>,
+    document.body
   );
 }
