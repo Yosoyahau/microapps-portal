@@ -204,7 +204,8 @@ export function Header({ onToggleMobileSidebar }: HeaderProps) {
         isOpen={profileModalOpen} 
         onClose={() => setProfileModalOpen(false)} 
         user={user} 
-        onUpdate={(url) => setAvatarUrl(url)} 
+        onUpdate={(url) => setAvatarUrl(url)}
+        currentAvatarUrl={avatarUrl}
       />
     </header>
   );

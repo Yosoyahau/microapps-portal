@@ -13,9 +13,10 @@ interface ProfileModalProps {
   onClose: () => void;
   user: User | null;
   onUpdate: (url: string) => void;
+  currentAvatarUrl?: string | null;
 }
 
-export function ProfileModal({ isOpen, onClose, user, onUpdate }: ProfileModalProps) {
+export function ProfileModal({ isOpen, onClose, user, onUpdate, currentAvatarUrl }: ProfileModalProps) {
   const { language } = useTranslation();
   const { toast } = useToast();
   const supabase = createClient();
@@ -35,7 +36,7 @@ export function ProfileModal({ isOpen, onClose, user, onUpdate }: ProfileModalPr
 
   if (!isOpen || !user || !mounted) return null;
 
-  const currentAvatar = localAvatar || user.user_metadata?.avatar_url;
+  const currentAvatar = localAvatar || currentAvatarUrl || user.user_metadata?.avatar_url;
   const firstName = user.user_metadata?.first_name || "";
   const lastName = user.user_metadata?.last_name || "";
   const initials = firstName && lastName ? `${firstName[0]}${lastName[0]}` : "U";
