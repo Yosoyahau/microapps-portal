@@ -4,7 +4,9 @@ import { useState, useEffect } from "react";
 import { useTranslation } from "@/hooks/useTranslation";
 import { createClient } from "@/lib/supabase/client";
 import { Menu, Bell, Search, User, Settings, LogOut, ChevronDown } from "lucide-react";
+import { User as SupabaseUser } from "@supabase/supabase-js";
 import { LanguageSwitcher } from "@/components/ui/LanguageSwitcher";
+import { ProfileModal } from "@/components/profile/ProfileModal";
 import { cn } from "@/lib/utils";
 
 interface HeaderProps {
@@ -14,22 +16,27 @@ interface HeaderProps {
 export function Header({ onToggleMobileSidebar }: HeaderProps) {
   const { language } = useTranslation();
   const supabase = createClient();
+  const [user, setUser] = useState<SupabaseUser | null>(null);
   const [userInitials, setUserInitials] = useState<string>("U");
   const [userName, setUserName] = useState<string>("User");
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
+  const [profileModalOpen, setProfileModalOpen] = useState(false);
 
   useEffect(() => {
     async function getUser() {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (user) {
-        const first = user.user_metadata?.first_name || "";
-        const last = user.user_metadata?.last_name || "";
-        setUserName(first ? `${first} ${last}`.trim() : user.email || "User");
+      const { data: { user: currentUser } } = await supabase.auth.getUser();
+      if (currentUser) {
+        setUser(currentUser);
+        const first = currentUser.user_metadata?.first_name || "";
+        const last = currentUser.user_metadata?.last_name || "";
+        setUserName(first ? `${first} ${last}`.trim() : currentUser.email || "User");
+        setAvatarUrl(currentUser.user_metadata?.avatar_url || null);
         if (first && last) {
           setUserInitials(`${first[0]}${last[0]}`.toUpperCase());
-        } else if (user.email) {
-          setUserInitials(user.email[0].toUpperCase());
+        } else if (currentUser.email) {
+          setUserInitials(currentUser.email[0].toUpperCase());
         }
       }
     }
@@ -121,8 +128,12 @@ export function Header({ onToggleMobileSidebar }: HeaderProps) {
             onClick={() => setDropdownOpen(!dropdownOpen)}
             className="flex items-center gap-2 pl-2 pr-1 py-1 rounded-full hover:bg-white/5 transition-colors focus:outline-none border border-transparent hover:border-white/10"
           >
-            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-accent-blue flex items-center justify-center text-sm font-bold text-white shadow-lg">
-              {userInitials}
+            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-accent-blue flex items-center justify-center text-sm font-bold text-white shadow-lg overflow-hidden border border-white/10">
+              {avatarUrl ? (
+                <img src={avatarUrl} alt="Avatar" className="w-full h-full object-cover" />
+              ) : (
+                userInitials
+              )}
             </div>
             <ChevronDown className="w-4 h-4 text-white/50" />
           </button>
@@ -134,7 +145,13 @@ export function Header({ onToggleMobileSidebar }: HeaderProps) {
                 <div className="px-3 py-3 border-b border-white/10 mb-1">
                   <p className="text-sm font-medium text-white truncate">{userName}</p>
                 </div>
-                <button className="w-full flex items-center gap-2 px-3 py-2 text-sm text-white/70 hover:text-white hover:bg-white/10 rounded-lg transition-colors">
+                <button 
+                  onClick={() => {
+                    setDropdownOpen(false);
+                    setProfileModalOpen(true);
+                  }}
+                  className="w-full flex items-center gap-2 px-3 py-2 text-sm text-white/70 hover:text-white hover:bg-white/10 rounded-lg transition-colors"
+                >
                   <User className="w-4 h-4" />
                   <span>{profileLabel}</span>
                 </button>
@@ -155,6 +172,13 @@ export function Header({ onToggleMobileSidebar }: HeaderProps) {
           )}
         </div>
       </div>
+
+      <ProfileModal 
+        isOpen={profileModalOpen} 
+        onClose={() => setProfileModalOpen(false)} 
+        user={user} 
+        onUpdate={(url) => setAvatarUrl(url)} 
+      />
     </header>
   );
 }
