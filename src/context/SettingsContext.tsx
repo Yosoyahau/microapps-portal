@@ -2,8 +2,8 @@
 
 import React, { createContext, useContext, useEffect, useState } from "react";
 
-type Theme = "dark" | "light";
-type AccentColor = "purple" | "pink" | "blue" | "orange";
+export type Theme = "dark" | "light";
+export type AccentColor = "purple" | "pink" | "blue" | "orange";
 
 interface SettingsContextType {
   theme: Theme;

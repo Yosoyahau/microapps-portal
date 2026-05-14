@@ -1,6 +1,6 @@
 "use client";
 
-import { useSettings } from "@/context/SettingsContext";
+import { useSettings, AccentColor } from "@/context/SettingsContext";
 import { useTranslation } from "@/hooks/useTranslation";
 import { Moon, Sun, Palette, Bell, Focus, ShieldCheck } from "lucide-react";
 import { cn } from "@/lib/utils";
