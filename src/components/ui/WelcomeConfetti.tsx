@@ -24,7 +24,7 @@ export function WelcomeConfetti() {
       setTimeout(() => {
         setShowModal(true);
         fireConfetti();
-      }, 500);
+      }, 3500);
     }
   }, []);
 
