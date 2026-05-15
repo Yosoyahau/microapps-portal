@@ -71,7 +71,7 @@ export function Header({ onToggleMobileSidebar }: HeaderProps) {
   }, [supabase]);
 
   useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
+    function handleClickOutside(event: MouseEvent | TouchEvent) {
       const target = event.target as Element;
       // Check if click was outside the user dropdown
       if (!target.closest('#user-dropdown-container')) {
@@ -85,10 +85,12 @@ export function Header({ onToggleMobileSidebar }: HeaderProps) {
 
     if (dropdownOpen || notificationsOpen) {
       document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener('touchstart', handleClickOutside);
     }
     
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('touchstart', handleClickOutside);
     };
   }, [dropdownOpen, notificationsOpen]);
 
