@@ -95,14 +95,12 @@ export function Sidebar({ collapsed, onToggleCollapse, mobileOpen, onCloseMobile
               </li>
             </ul>
 
-            <div className="mt-8 mb-2">
-              <h3 className={cn(
-                "px-3 text-xs font-semibold text-base-content/40 uppercase tracking-wider transition-all whitespace-nowrap overflow-hidden",
-                collapsed ? "lg:opacity-0 lg:h-0 lg:mb-0" : "opacity-100"
-              )}>
-                {language === 'en' ? 'System' : 'Sistema'}
-              </h3>
-            </div>
+            <h3 className={cn(
+              "px-3 text-xs font-semibold text-base-content/40 uppercase tracking-wider transition-all whitespace-nowrap overflow-hidden",
+              collapsed ? "lg:opacity-0 lg:h-0 lg:mt-0 lg:mb-0" : "opacity-100 mt-8 mb-2"
+            )}>
+              {language === 'en' ? 'System' : 'Sistema'}
+            </h3>
             <ul className="space-y-1">
               <li>
                 <Link
