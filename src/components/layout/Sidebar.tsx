@@ -33,11 +33,17 @@ export function Sidebar({ collapsed, onToggleCollapse, mobileOpen, onCloseMobile
 
       {/* Sidebar Drawer */}
       <aside
+        onClick={(e) => {
+          if (e.target === e.currentTarget && pathname === '/settings') {
+            window.location.href = '/';
+          }
+        }}
         className={cn(
           "fixed inset-y-0 left-0 z-50 flex flex-col bg-base-200/80 backdrop-blur-xl border-r border-white/5 transition-all duration-300",
           "lg:static lg:h-full lg:z-10 shrink-0",
           collapsed ? "lg:w-16" : "lg:w-64",
-          mobileOpen ? "translate-x-0 w-64" : "-translate-x-full lg:translate-x-0"
+          mobileOpen ? "translate-x-0 w-64" : "-translate-x-full lg:translate-x-0",
+          pathname === '/settings' ? "cursor-pointer" : ""
         )}
       >
         {/* Header */}
@@ -63,7 +69,14 @@ export function Sidebar({ collapsed, onToggleCollapse, mobileOpen, onCloseMobile
         </div>
 
         {/* Navigation */}
-        <nav className="flex-1 overflow-y-auto overflow-x-hidden py-4 px-3 space-y-6">
+        <nav 
+          className="flex-1 overflow-y-auto overflow-x-hidden py-4 px-3 space-y-6"
+          onClick={(e) => {
+            if (e.target === e.currentTarget && pathname === '/settings') {
+              window.location.href = '/';
+            }
+          }}
+        >
           <div>
             <h3 className={cn(
               "px-3 text-xs font-semibold text-white/40 uppercase tracking-wider mb-2 transition-all whitespace-nowrap overflow-hidden",
