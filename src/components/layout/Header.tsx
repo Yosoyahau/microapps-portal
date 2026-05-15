@@ -116,25 +116,25 @@ export function Header({ onToggleMobileSidebar }: HeaderProps) {
   const newLogin = language === 'en' ? 'New login detected from Safari.' : 'Nuevo inicio de sesión detectado desde Safari.';
 
   return (
-    <header className="shrink-0 h-16 relative z-30 flex items-center justify-between px-4 sm:px-6 lg:px-8 border-b border-white/5 bg-base-200/50 backdrop-blur-xl">
+    <header className="shrink-0 h-16 relative z-30 flex items-center justify-between px-4 sm:px-6 lg:px-8 border-b border-base-content/5 bg-base-200/50 backdrop-blur-xl">
       <div className="flex items-center gap-4 flex-1">
         <button 
           onClick={onToggleMobileSidebar}
-          className="lg:hidden p-2 -ml-2 rounded-lg text-white/70 hover:text-white hover:bg-white/5 transition-colors"
+          className="lg:hidden p-2 -ml-2 rounded-lg text-base-content/70 hover:text-base-content hover:bg-base-content/5 transition-colors"
         >
           <Menu className="w-5 h-5" />
         </button>
         
         <div className="hidden sm:block max-w-md w-full relative group">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40 group-focus-within:text-primary transition-colors" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-base-content/40 group-focus-within:text-primary transition-colors" />
           <input 
             type="text"
             placeholder={searchPlaceholder}
-            className="w-full bg-black/20 border border-white/10 rounded-full py-2 pl-10 pr-12 text-sm text-white focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-all placeholder:text-white/30"
+            className="w-full bg-black/20 border border-base-content/10 rounded-full py-2 pl-10 pr-12 text-sm text-base-content focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-all placeholder:text-base-content/30"
           />
           <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1">
-            <kbd className="hidden lg:inline-flex items-center justify-center px-1.5 py-0.5 text-[10px] font-medium text-white/40 bg-white/5 border border-white/10 rounded">⌘</kbd>
-            <kbd className="hidden lg:inline-flex items-center justify-center px-1.5 py-0.5 text-[10px] font-medium text-white/40 bg-white/5 border border-white/10 rounded">K</kbd>
+            <kbd className="hidden lg:inline-flex items-center justify-center px-1.5 py-0.5 text-[10px] font-medium text-base-content/40 bg-base-content/5 border border-base-content/10 rounded">⌘</kbd>
+            <kbd className="hidden lg:inline-flex items-center justify-center px-1.5 py-0.5 text-[10px] font-medium text-base-content/40 bg-base-content/5 border border-base-content/10 rounded">K</kbd>
           </div>
         </div>
       </div>
@@ -146,7 +146,7 @@ export function Header({ onToggleMobileSidebar }: HeaderProps) {
         <div className="relative" id="notifications-dropdown-container">
           <button 
             onClick={() => setNotificationsOpen(!notificationsOpen)}
-            className="relative p-2 rounded-full text-white/70 hover:text-white hover:bg-white/5 transition-colors focus:outline-none"
+            className="relative p-2 rounded-full text-base-content/70 hover:text-base-content hover:bg-base-content/5 transition-colors focus:outline-none"
           >
             <Bell className="w-5 h-5" />
             <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-accent-pink shadow-[0_0_8px_rgba(236,72,153,0.8)] border border-base-200"></span>
@@ -154,23 +154,23 @@ export function Header({ onToggleMobileSidebar }: HeaderProps) {
 
           {notificationsOpen && (
             <>
-              <div className="absolute right-0 mt-2 w-80 rounded-xl bg-base-200 border border-white/10 shadow-2xl z-50 overflow-hidden flex flex-col">
-                <div className="p-4 border-b border-white/5 flex items-center justify-between">
-                  <h3 className="font-semibold text-white">{notificationsLabel}</h3>
+              <div className="absolute right-0 mt-2 w-80 rounded-xl bg-base-200 border border-base-content/10 shadow-2xl z-50 overflow-hidden flex flex-col">
+                <div className="p-4 border-b border-base-content/5 flex items-center justify-between">
+                  <h3 className="font-semibold text-base-content">{notificationsLabel}</h3>
                   <span className="text-xs bg-accent-pink/20 text-accent-pink px-2 py-0.5 rounded-full font-medium">1</span>
                 </div>
                 <div className="p-2 flex-1 max-h-80 overflow-y-auto">
-                  <div className="p-3 rounded-lg hover:bg-white/5 transition-colors cursor-pointer flex gap-3">
+                  <div className="p-3 rounded-lg hover:bg-base-content/5 transition-colors cursor-pointer flex gap-3">
                     <div className="w-8 h-8 rounded-full bg-primary/20 text-primary flex items-center justify-center shrink-0">
                       <User className="w-4 h-4" />
                     </div>
                     <div>
-                      <p className="text-sm text-white/90 leading-tight">{newLogin}</p>
-                      <span className="text-xs text-white/40 mt-1 block">2 min</span>
+                      <p className="text-sm text-base-content/90 leading-tight">{newLogin}</p>
+                      <span className="text-xs text-base-content/40 mt-1 block">2 min</span>
                     </div>
                   </div>
                 </div>
-                <div className="p-3 border-t border-white/5 text-center">
+                <div className="p-3 border-t border-base-content/5 text-center">
                   <button className="text-sm text-primary hover:text-primary transition-colors font-medium">
                     {viewAll}
                   </button>
@@ -184,30 +184,30 @@ export function Header({ onToggleMobileSidebar }: HeaderProps) {
         <div className="relative" id="user-dropdown-container">
           <button 
             onClick={() => setDropdownOpen(!dropdownOpen)}
-            className="flex items-center gap-2 pl-2 pr-1 py-1 rounded-full hover:bg-white/5 transition-colors focus:outline-none border border-transparent hover:border-white/10"
+            className="flex items-center gap-2 pl-2 pr-1 py-1 rounded-full hover:bg-base-content/5 transition-colors focus:outline-none border border-transparent hover:border-base-content/10"
           >
-            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-accent-blue flex items-center justify-center text-sm font-bold text-white shadow-lg overflow-hidden border border-white/10">
+            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-accent-blue flex items-center justify-center text-sm font-bold text-base-content shadow-lg overflow-hidden border border-base-content/10">
               {avatarUrl ? (
                 <img src={avatarUrl} alt="Avatar" className="w-full h-full object-cover" />
               ) : (
                 userInitials
               )}
             </div>
-            <ChevronDown className="w-4 h-4 text-white/50" />
+            <ChevronDown className="w-4 h-4 text-base-content/50" />
           </button>
 
           {dropdownOpen && (
             <>
-              <div className="absolute right-0 mt-2 w-56 rounded-xl bg-[#0A0520] border border-white/20 shadow-2xl z-50 overflow-hidden flex flex-col p-1">
-                <div className="px-3 py-3 border-b border-white/10 mb-1">
-                  <p className="text-sm font-medium text-white truncate">{userName}</p>
+              <div className="absolute right-0 mt-2 w-56 rounded-xl bg-[#0A0520] border border-base-content/20 shadow-2xl z-50 overflow-hidden flex flex-col p-1">
+                <div className="px-3 py-3 border-b border-base-content/10 mb-1">
+                  <p className="text-sm font-medium text-base-content truncate">{userName}</p>
                 </div>
                 <button 
                   onClick={() => {
                     setDropdownOpen(false);
                     setProfileModalOpen(true);
                   }}
-                  className="w-full flex items-center gap-2 px-3 py-2 text-sm text-white/70 hover:text-white hover:bg-white/10 rounded-lg transition-colors"
+                  className="w-full flex items-center gap-2 px-3 py-2 text-sm text-base-content/70 hover:text-base-content hover:bg-base-content/10 rounded-lg transition-colors"
                 >
                   <User className="w-4 h-4" />
                   <span>{profileLabel}</span>
@@ -215,12 +215,12 @@ export function Header({ onToggleMobileSidebar }: HeaderProps) {
                 <a 
                   href="/settings"
                   onClick={() => setDropdownOpen(false)}
-                  className="w-full flex items-center gap-2 px-3 py-2 text-sm text-white/70 hover:text-white hover:bg-white/10 rounded-lg transition-colors"
+                  className="w-full flex items-center gap-2 px-3 py-2 text-sm text-base-content/70 hover:text-base-content hover:bg-base-content/10 rounded-lg transition-colors"
                 >
                   <Settings className="w-4 h-4" />
                   <span>{settingsLabel}</span>
                 </a>
-                <div className="h-px bg-white/10 my-1 mx-2" />
+                <div className="h-px bg-base-content/10 my-1 mx-2" />
                 <button 
                   onClick={handleLogout}
                   className="w-full flex items-center gap-2 px-3 py-2 text-sm text-accent-warm hover:bg-accent-warm/10 rounded-lg transition-colors"

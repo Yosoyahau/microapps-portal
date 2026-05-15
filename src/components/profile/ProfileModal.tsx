@@ -100,17 +100,17 @@ export function ProfileModal({ isOpen, onClose, user, onUpdate, currentAvatarUrl
   return createPortal(
     <>
       <div className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm" onClick={onClose} />
-      <div className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-[100] w-full max-w-md p-6 rounded-2xl bg-base-200 border border-white/10 shadow-2xl">
+      <div className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-[100] w-full max-w-md p-6 rounded-2xl bg-base-200 border border-base-content/10 shadow-2xl">
         <div className="flex items-center justify-between mb-8">
-          <h2 className="text-xl font-semibold text-white">{t.title}</h2>
-          <button onClick={onClose} className="p-2 -mr-2 rounded-lg text-white/50 hover:text-white hover:bg-white/5 transition-colors">
+          <h2 className="text-xl font-semibold text-base-content">{t.title}</h2>
+          <button onClick={onClose} className="p-2 -mr-2 rounded-lg text-base-content/50 hover:text-base-content hover:bg-base-content/5 transition-colors">
             <X className="w-5 h-5" />
           </button>
         </div>
 
         <div className="flex flex-col items-center">
           <div className="relative group mb-8">
-            <div className="w-24 h-24 rounded-full bg-gradient-to-br from-primary to-accent-blue flex items-center justify-center text-3xl font-bold text-white shadow-xl overflow-hidden border-2 border-white/10">
+            <div className="w-24 h-24 rounded-full bg-gradient-to-br from-primary to-accent-blue flex items-center justify-center text-3xl font-bold text-base-content shadow-xl overflow-hidden border-2 border-base-content/10">
               {currentAvatar ? (
                 <img src={currentAvatar} alt="Avatar" className="w-full h-full object-cover" />
               ) : (
@@ -123,7 +123,7 @@ export function ProfileModal({ isOpen, onClose, user, onUpdate, currentAvatarUrl
               disabled={loading}
               className="absolute inset-0 rounded-full bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer disabled:cursor-not-allowed"
             >
-              {loading ? <Loader2 className="w-6 h-6 text-white animate-spin" /> : <Camera className="w-6 h-6 text-white" />}
+              {loading ? <Loader2 className="w-6 h-6 text-base-content animate-spin" /> : <Camera className="w-6 h-6 text-base-content" />}
             </button>
             <input 
               type="file" 
@@ -135,13 +135,13 @@ export function ProfileModal({ isOpen, onClose, user, onUpdate, currentAvatarUrl
           </div>
 
           <div className="w-full space-y-3">
-            <div className="p-4 rounded-xl bg-white/5 border border-white/5 flex flex-col gap-1">
-              <span className="text-xs text-white/50 uppercase tracking-wider font-medium">Nombre</span>
-              <span className="text-white font-medium">{firstName} {lastName}</span>
+            <div className="p-4 rounded-xl bg-base-content/5 border border-base-content/5 flex flex-col gap-1">
+              <span className="text-xs text-base-content/50 uppercase tracking-wider font-medium">Nombre</span>
+              <span className="text-base-content font-medium">{firstName} {lastName}</span>
             </div>
-            <div className="p-4 rounded-xl bg-white/5 border border-white/5 flex flex-col gap-1">
-              <span className="text-xs text-white/50 uppercase tracking-wider font-medium">Email</span>
-              <span className="text-white font-medium">{user.email}</span>
+            <div className="p-4 rounded-xl bg-base-content/5 border border-base-content/5 flex flex-col gap-1">
+              <span className="text-xs text-base-content/50 uppercase tracking-wider font-medium">Email</span>
+              <span className="text-base-content font-medium">{user.email}</span>
             </div>
           </div>
         </div>
