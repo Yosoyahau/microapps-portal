@@ -9,6 +9,7 @@ import { LanguageSwitcher } from "@/components/ui/LanguageSwitcher";
 import { ProfileModal } from "@/components/profile/ProfileModal";
 import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
+import Link from "next/link";
 
 interface HeaderProps {
   onToggleMobileSidebar: () => void;
@@ -212,14 +213,14 @@ export function Header({ onToggleMobileSidebar }: HeaderProps) {
                   <User className="w-4 h-4" />
                   <span>{profileLabel}</span>
                 </button>
-                <a 
+                <Link 
                   href="/settings"
                   onClick={() => setDropdownOpen(false)}
                   className="w-full flex items-center gap-2 px-3 py-2 text-sm text-base-content/70 hover:text-base-content hover:bg-base-content/10 rounded-lg transition-colors"
                 >
                   <Settings className="w-4 h-4" />
                   <span>{settingsLabel}</span>
-                </a>
+                </Link>
                 <div className="h-px bg-base-content/10 my-1 mx-2" />
                 <button 
                   onClick={handleLogout}
