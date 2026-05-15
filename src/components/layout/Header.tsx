@@ -182,10 +182,14 @@ export function Header({ onToggleMobileSidebar }: HeaderProps) {
                   <User className="w-4 h-4" />
                   <span>{profileLabel}</span>
                 </button>
-                <button className="w-full flex items-center gap-2 px-3 py-2 text-sm text-white/70 hover:text-white hover:bg-white/10 rounded-lg transition-colors">
+                <a 
+                  href="/settings"
+                  onClick={() => setDropdownOpen(false)}
+                  className="w-full flex items-center gap-2 px-3 py-2 text-sm text-white/70 hover:text-white hover:bg-white/10 rounded-lg transition-colors"
+                >
                   <Settings className="w-4 h-4" />
                   <span>{settingsLabel}</span>
-                </button>
+                </a>
                 <div className="h-px bg-white/10 my-1 mx-2" />
                 <button 
                   onClick={handleLogout}

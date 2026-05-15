@@ -70,7 +70,12 @@ export function WelcomeConfetti() {
 
   return createPortal(
     <>
-      <div className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-md flex items-center justify-center p-4">
+      <div 
+        className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-md flex items-center justify-center p-4"
+        onClick={(e) => {
+          if (e.target === e.currentTarget) setStep("hidden");
+        }}
+      >
         
         {step === "confetti" && (
           <div className="relative w-full max-w-lg p-8 rounded-3xl bg-linear-to-br from-[#1a103c] to-[#0A0520] border border-white/20 shadow-[0_0_50px_rgba(124,58,237,0.3)] flex flex-col items-center text-center animate-in zoom-in-95 fade-in duration-500">
