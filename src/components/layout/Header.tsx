@@ -8,6 +8,7 @@ import { User as SupabaseUser } from "@supabase/supabase-js";
 import { LanguageSwitcher } from "@/components/ui/LanguageSwitcher";
 import { ProfileModal } from "@/components/profile/ProfileModal";
 import { cn } from "@/lib/utils";
+import { usePathname } from "next/navigation";
 
 interface HeaderProps {
   onToggleMobileSidebar: () => void;
@@ -15,6 +16,7 @@ interface HeaderProps {
 
 export function Header({ onToggleMobileSidebar }: HeaderProps) {
   const { language } = useTranslation();
+  const pathname = usePathname();
   const supabase = createClient();
   const [user, setUser] = useState<SupabaseUser | null>(null);
   const [userInitials, setUserInitials] = useState<string>("U");
@@ -93,6 +95,12 @@ export function Header({ onToggleMobileSidebar }: HeaderProps) {
       document.removeEventListener('touchstart', handleClickOutside);
     };
   }, [dropdownOpen, notificationsOpen]);
+
+  // Always close dropdowns when the user navigates to a new page
+  useEffect(() => {
+    setDropdownOpen(false);
+    setNotificationsOpen(false);
+  }, [pathname]);
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
