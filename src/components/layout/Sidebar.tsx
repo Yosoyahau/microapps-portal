@@ -3,7 +3,7 @@
 import { useTranslation } from "@/hooks/useTranslation";
 import { LayoutDashboard, X, ChevronsLeft, ChevronsRight, Globe } from "lucide-react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 
 interface SidebarProps {
@@ -16,6 +16,7 @@ interface SidebarProps {
 export function Sidebar({ collapsed, onToggleCollapse, mobileOpen, onCloseMobile }: SidebarProps) {
   const { language } = useTranslation();
   const pathname = usePathname();
+  const router = useRouter();
 
   const title = language === 'en' ? 'Micro Apps' : 'Micro Apps';
   const app1 = language === 'en' ? 'Micro App #1' : 'Micro App #1';
@@ -35,7 +36,7 @@ export function Sidebar({ collapsed, onToggleCollapse, mobileOpen, onCloseMobile
       <aside
         onClick={(e) => {
           if (e.target === e.currentTarget && pathname === '/settings') {
-            window.location.href = '/';
+            router.push('/');
           }
         }}
         className={cn(
@@ -73,7 +74,7 @@ export function Sidebar({ collapsed, onToggleCollapse, mobileOpen, onCloseMobile
           className="flex-1 overflow-y-auto overflow-x-hidden py-4 px-3 space-y-6"
           onClick={(e) => {
             if (e.target === e.currentTarget && pathname === '/settings') {
-              window.location.href = '/';
+              router.push('/');
             }
           }}
         >

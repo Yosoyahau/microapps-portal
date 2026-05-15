@@ -4,8 +4,10 @@ import { useSettings, AccentColor } from "@/context/SettingsContext";
 import { useTranslation } from "@/hooks/useTranslation";
 import { Moon, Sun, Palette, Bell, Focus, ShieldCheck } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useRouter } from "next/navigation";
 
 export default function SettingsPage() {
+  const router = useRouter();
   const { language } = useTranslation();
   const { 
     theme, setTheme, 
@@ -46,7 +48,7 @@ export default function SettingsPage() {
     <>
       <div 
         className="fixed inset-0 z-0 cursor-pointer"
-        onClick={() => window.location.href = '/'}
+        onClick={() => router.push('/')}
       />
       <div className="w-full max-w-5xl mx-auto space-y-8 pb-12 animate-in fade-in slide-in-from-bottom-4 duration-500 relative z-10">
         <div>
