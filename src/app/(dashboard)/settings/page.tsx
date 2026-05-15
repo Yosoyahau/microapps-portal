@@ -43,18 +43,15 @@ export default function SettingsPage() {
   ] as const;
 
   return (
-    <div 
-      className="absolute inset-0 w-full h-full p-4 sm:p-6 lg:p-8 overflow-y-auto"
-      onClick={(e) => {
-        if (e.target === e.currentTarget) {
-          window.location.href = '/';
-        }
-      }}
-    >
-      <div className="w-full max-w-5xl mx-auto space-y-8 pb-12 animate-in fade-in slide-in-from-bottom-4 duration-500">
-        <div className="pointer-events-none">
-          <h1 className="text-3xl font-bold text-base-content mb-2 pointer-events-auto inline-block">{t.title}</h1>
-          <p className="text-base-content/60 pointer-events-auto">{t.subtitle}</p>
+    <>
+      <div 
+        className="fixed inset-0 z-0 cursor-pointer"
+        onClick={() => window.location.href = '/'}
+      />
+      <div className="w-full max-w-5xl mx-auto space-y-8 pb-12 animate-in fade-in slide-in-from-bottom-4 duration-500 relative z-10">
+        <div>
+          <h1 className="text-3xl font-bold text-base-content mb-2">{t.title}</h1>
+          <p className="text-base-content/60">{t.subtitle}</p>
         </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -198,6 +195,6 @@ export default function SettingsPage() {
 
       </div>
     </div>
-    </div>
+    </>
   );
 }
