@@ -70,6 +70,28 @@ export function Header({ onToggleMobileSidebar }: HeaderProps) {
     getUser();
   }, [supabase]);
 
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      const target = event.target as Element;
+      // Check if click was outside the user dropdown
+      if (!target.closest('#user-dropdown-container')) {
+        setDropdownOpen(false);
+      }
+      // Check if click was outside the notifications dropdown
+      if (!target.closest('#notifications-dropdown-container')) {
+        setNotificationsOpen(false);
+      }
+    }
+
+    if (dropdownOpen || notificationsOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [dropdownOpen, notificationsOpen]);
+
   const handleLogout = async () => {
     await supabase.auth.signOut();
     window.location.href = "/login";
@@ -111,7 +133,7 @@ export function Header({ onToggleMobileSidebar }: HeaderProps) {
         <LanguageSwitcher />
 
         {/* Notifications */}
-        <div className="relative">
+        <div className="relative" id="notifications-dropdown-container">
           <button 
             onClick={() => setNotificationsOpen(!notificationsOpen)}
             className="relative p-2 rounded-full text-white/70 hover:text-white hover:bg-white/5 transition-colors focus:outline-none"
@@ -122,7 +144,6 @@ export function Header({ onToggleMobileSidebar }: HeaderProps) {
 
           {notificationsOpen && (
             <>
-              <div className="fixed inset-0 z-40" onClick={() => setNotificationsOpen(false)} />
               <div className="absolute right-0 mt-2 w-80 rounded-xl bg-base-200 border border-white/10 shadow-2xl z-50 overflow-hidden flex flex-col">
                 <div className="p-4 border-b border-white/5 flex items-center justify-between">
                   <h3 className="font-semibold text-white">{notificationsLabel}</h3>
@@ -150,7 +171,7 @@ export function Header({ onToggleMobileSidebar }: HeaderProps) {
         </div>
 
         {/* User Dropdown */}
-        <div className="relative">
+        <div className="relative" id="user-dropdown-container">
           <button 
             onClick={() => setDropdownOpen(!dropdownOpen)}
             className="flex items-center gap-2 pl-2 pr-1 py-1 rounded-full hover:bg-white/5 transition-colors focus:outline-none border border-transparent hover:border-white/10"
@@ -167,7 +188,6 @@ export function Header({ onToggleMobileSidebar }: HeaderProps) {
 
           {dropdownOpen && (
             <>
-              <div className="fixed inset-0 z-40" onClick={() => setDropdownOpen(false)} />
               <div className="absolute right-0 mt-2 w-56 rounded-xl bg-[#0A0520] border border-white/20 shadow-2xl z-50 overflow-hidden flex flex-col p-1">
                 <div className="px-3 py-3 border-b border-white/10 mb-1">
                   <p className="text-sm font-medium text-white truncate">{userName}</p>
