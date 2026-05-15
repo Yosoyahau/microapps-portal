@@ -198,7 +198,7 @@ export function Header({ onToggleMobileSidebar }: HeaderProps) {
 
           {dropdownOpen && (
             <>
-              <div className="absolute right-0 mt-2 w-56 rounded-xl bg-[#0A0520] border border-base-content/20 shadow-2xl z-50 overflow-hidden flex flex-col p-1">
+              <div className="absolute right-0 mt-2 w-56 rounded-xl bg-base-200 border border-base-content/20 shadow-2xl z-50 overflow-hidden flex flex-col p-1">
                 <div className="px-3 py-3 border-b border-base-content/10 mb-1">
                   <p className="text-sm font-medium text-base-content truncate">{userName}</p>
                 </div>
