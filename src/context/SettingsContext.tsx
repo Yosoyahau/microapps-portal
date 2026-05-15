@@ -25,6 +25,26 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
   const [notifyPortalChanges, setNotifyPortalChanges] = useState<boolean>(true);
   const [mounted, setMounted] = useState(false);
 
+  const updateTheme = (newTheme: Theme) => {
+    setTheme(newTheme);
+    localStorage.setItem("app_theme", newTheme);
+    document.documentElement.setAttribute("data-theme", newTheme);
+  };
+
+  const updateColor = (newColor: AccentColor) => {
+    setAccentColor(newColor);
+    localStorage.setItem("app_color", newColor);
+    document.documentElement.setAttribute("data-color", newColor);
+    
+    const colors = {
+      purple: "#7C3AED",
+      pink: "#EC4899",
+      blue: "#38BDF8",
+      orange: "#F97316"
+    };
+    document.documentElement.style.setProperty("--app-primary", colors[newColor]);
+  };
+
   useEffect(() => {
     // Load from local storage
     const savedTheme = localStorage.getItem("app_theme") as Theme;
@@ -32,34 +52,13 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
     const savedFocus = localStorage.getItem("app_focus");
     const savedNotify = localStorage.getItem("app_notify");
 
-    if (savedTheme) setTheme(savedTheme);
-    if (savedColor) setAccentColor(savedColor);
+    if (savedTheme) updateTheme(savedTheme);
+    if (savedColor) updateColor(savedColor);
     if (savedFocus !== null) setFocusMode(savedFocus === "true");
     if (savedNotify !== null) setNotifyPortalChanges(savedNotify === "true");
     
     setMounted(true);
   }, []);
-
-  useEffect(() => {
-    if (!mounted) return;
-    localStorage.setItem("app_theme", theme);
-    document.documentElement.setAttribute("data-theme", theme);
-  }, [theme, mounted]);
-
-  useEffect(() => {
-    if (!mounted) return;
-    localStorage.setItem("app_color", accentColor);
-    document.documentElement.setAttribute("data-color", accentColor);
-    
-    // Set primary color css variable dynamically
-    const colors = {
-      purple: "#7C3AED",
-      pink: "#EC4899",
-      blue: "#38BDF8",
-      orange: "#F97316"
-    };
-    document.documentElement.style.setProperty("--app-primary", colors[accentColor]);
-  }, [accentColor, mounted]);
 
   useEffect(() => {
     if (!mounted) return;
@@ -73,8 +72,8 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <SettingsContext.Provider value={{
-      theme, setTheme,
-      accentColor, setAccentColor,
+      theme, setTheme: updateTheme,
+      accentColor, setAccentColor: updateColor,
       focusMode, setFocusMode,
       notifyPortalChanges, setNotifyPortalChanges
     }}>
