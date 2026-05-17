@@ -1,10 +1,13 @@
 "use client";
 
 import { useTranslation } from "@/hooks/useTranslation";
-import { LayoutDashboard, X, ChevronsLeft, ChevronsRight, Globe } from "lucide-react";
+import { LayoutDashboard, X, ChevronsLeft, ChevronsRight, Globe, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { useEffect, useState } from "react";
+import { createClient } from "@/lib/supabase/client";
+import * as LucideIcons from "lucide-react";
 
 interface SidebarProps {
   collapsed: boolean;
@@ -13,13 +16,42 @@ interface SidebarProps {
   onCloseMobile: () => void;
 }
 
+interface AppLink {
+  id: string;
+  slug: string;
+  name_es: string;
+  name_en: string;
+  icon: string;
+}
+
 export function Sidebar({ collapsed, onToggleCollapse, mobileOpen, onCloseMobile }: SidebarProps) {
   const { language } = useTranslation();
   const pathname = usePathname();
   const router = useRouter();
+  const supabase = createClient();
+
+  const [apps, setApps] = useState<AppLink[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchApps = async () => {
+      setIsLoading(true);
+      const { data, error } = await supabase
+        .from('micro_apps')
+        .select('id, slug, name_es, name_en, icon')
+        .order('created_at', { ascending: true });
+        
+      if (!error && data) {
+        setApps(data);
+      }
+      setIsLoading(false);
+    };
+    
+    fetchApps();
+  }, [supabase]);
 
   const title = language === 'en' ? 'Micro Apps' : 'Micro Apps';
-  const app1 = language === 'en' ? 'Micro App #1' : 'Micro App #1';
+  const icons = LucideIcons as unknown as Record<string, React.ComponentType<{ className?: string }>>;
   
   return (
     <>
@@ -54,7 +86,7 @@ export function Sidebar({ collapsed, onToggleCollapse, mobileOpen, onCloseMobile
               <LayoutDashboard className="w-5 h-5 text-primary" />
             </div>
             <span className={cn(
-              "font-bold text-lg bg-gradient-to-r from-base-content to-base-content/60 bg-clip-text text-transparent whitespace-nowrap transition-all overflow-hidden",
+              "font-bold text-lg bg-linear-to-r from-base-content to-base-content/60 bg-clip-text text-transparent whitespace-nowrap transition-all overflow-hidden",
               collapsed ? "lg:opacity-0 lg:w-0" : "opacity-100 lg:w-auto"
             )}>
               Micro Portal
@@ -85,31 +117,45 @@ export function Sidebar({ collapsed, onToggleCollapse, mobileOpen, onCloseMobile
             )}>
               {title}
             </h3>
-            <ul className="space-y-1">
-              <li>
-                <Link
-                  href="/"
-                  onClick={onCloseMobile}
-                  className={cn(
-                    "flex items-center gap-3 px-3 py-2 rounded-lg transition-colors",
-                    pathname === "/" || pathname === "/dashboard" 
-                      ? "bg-primary/10 text-primary border border-primary/20" 
-                      : "text-base-content/50 hover:text-base-content hover:bg-base-content/5"
-                  )}
-                  title={app1}
-                >
-                  <Globe className="w-5 h-5 shrink-0" />
-                  <span className={cn(
-                    "whitespace-nowrap transition-all font-medium overflow-hidden",
-                    collapsed ? "lg:opacity-0 lg:w-0" : "opacity-100 lg:w-auto"
-                  )}>
-                    {app1}
-                  </span>
-                </Link>
-              </li>
-            </ul>
-
-
+            
+            {isLoading ? (
+              <div className="flex justify-center p-4">
+                <Loader2 className="w-5 h-5 animate-spin text-base-content/30" />
+              </div>
+            ) : (
+              <ul className="space-y-1">
+                {apps.map((app) => {
+                  const href = `/apps/${app.slug}`;
+                  const isActive = pathname === href;
+                  const label = language === 'en' ? app.name_en : app.name_es;
+                  const AppIcon = icons[app.icon] || Globe;
+                  
+                  return (
+                    <li key={app.id}>
+                      <Link
+                        href={href}
+                        onClick={onCloseMobile}
+                        className={cn(
+                          "flex items-center gap-3 px-3 py-2 rounded-lg transition-colors",
+                          isActive
+                            ? "bg-primary/10 text-white border border-primary/20" 
+                            : "text-base-content/50 hover:text-base-content hover:bg-base-content/5"
+                        )}
+                        title={label}
+                      >
+                        <AppIcon className={cn("w-5 h-5 shrink-0", isActive && "text-white")} />
+                        <span className={cn(
+                          "whitespace-nowrap transition-all font-medium overflow-hidden",
+                          collapsed ? "lg:opacity-0 lg:w-0" : "opacity-100 lg:w-auto"
+                        )}>
+                          {label}
+                        </span>
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
+            )}
           </div>
         </nav>
 
