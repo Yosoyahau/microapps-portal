@@ -16,6 +16,19 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
+    // Check Subscription / Trial Status
+    const { data: profile } = await supabase
+      .from('users')
+      .select('subscription_tier, trial_ends_at')
+      .eq('id', user.id)
+      .single();
+
+    if (profile) {
+      if (profile.subscription_tier === 'free' && new Date(profile.trial_ends_at) < new Date()) {
+        return NextResponse.json({ error: 'Subscription expired' }, { status: 403 });
+      }
+    }
+
     const body = await request.json();
     const { appSlug, inputs } = body;
 

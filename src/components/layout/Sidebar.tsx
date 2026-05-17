@@ -68,7 +68,7 @@ export function Sidebar({ collapsed, onToggleCollapse, mobileOpen, onCloseMobile
       <aside
         onClick={(e) => {
           if (e.target === e.currentTarget && pathname === '/settings') {
-            router.push('/');
+            router.push('/dashboard');
           }
         }}
         className={cn(
@@ -106,7 +106,7 @@ export function Sidebar({ collapsed, onToggleCollapse, mobileOpen, onCloseMobile
           className="flex-1 overflow-y-auto overflow-x-hidden py-4 px-3 space-y-6"
           onClick={(e) => {
             if (e.target === e.currentTarget && pathname === '/settings') {
-              router.push('/');
+              router.push('/dashboard');
             }
           }}
         >

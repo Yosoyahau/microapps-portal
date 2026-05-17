@@ -9,6 +9,8 @@ import { AutofillBadges, AutofillPreset } from './AutofillBadges';
 import { AppWorkspace } from './AppWorkspace';
 import { AppHistory } from './AppHistory';
 import * as LucideIcons from 'lucide-react';
+import Link from 'next/link';
+import { GlowButton } from '@/components/ui/GlowButton';
 
 interface MicroApp {
   id: string;
@@ -35,6 +37,7 @@ export function MicroAppRunner({ appSlug }: MicroAppRunnerProps) {
   const [currentExecutionId, setCurrentExecutionId] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formInitialValues, setFormInitialValues] = useState<Record<string, string>>({});
+  const [isExpired, setIsExpired] = useState(false);
   
   const workspaceRef = useRef<HTMLDivElement>(null);
   const supabase = createClient();
@@ -61,6 +64,21 @@ export function MicroAppRunner({ appSlug }: MicroAppRunnerProps) {
           type: 'error' 
         });
       }
+
+      // Check subscription status
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        const { data: profile } = await supabase
+          .from('users')
+          .select('subscription_tier, trial_ends_at')
+          .eq('id', user.id)
+          .single();
+
+        if (profile && profile.subscription_tier === 'free' && new Date(profile.trial_ends_at) < new Date()) {
+          setIsExpired(true);
+        }
+      }
+
       setIsLoadingApp(false);
     };
     fetchApp();
@@ -173,22 +191,39 @@ export function MicroAppRunner({ appSlug }: MicroAppRunnerProps) {
           <div className="flex-1 overflow-y-auto p-5">
             {activeTab === 'form' ? (
               <>
-                <AutofillBadges 
-                  presets={app.autofill_presets} 
-                  onSelect={(values) => {
-                    // Handled inside DynamicForm by passing an initialValues object that updates, 
-                    // but we need a state to trigger it.
-                    // To do it cleanly without moving all form state up: 
-                    // We'll pass an object that changes reference.
-                    setFormInitialValues(values);
-                  }} 
-                />
-                <DynamicForm 
-                  schema={app.form_schema} 
-                  onSubmit={handleGenerate} 
-                  isLoading={isSubmitting}
-                  initialValues={formInitialValues}
-                />
+                <div className="relative">
+                  <AutofillBadges 
+                    presets={app.autofill_presets} 
+                    onSelect={(values) => {
+                      setFormInitialValues(values);
+                    }} 
+                  />
+                  <div className={isExpired ? "opacity-50 pointer-events-none" : ""}>
+                    <DynamicForm 
+                      schema={app.form_schema} 
+                      onSubmit={handleGenerate} 
+                      isLoading={isSubmitting}
+                      initialValues={formInitialValues}
+                    />
+                  </div>
+                  
+                  {isExpired && (
+                    <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-base-100/80 backdrop-blur-sm rounded-xl p-6 text-center border border-accent-pink/30 shadow-[0_0_30px_rgba(236,72,153,0.1)]">
+                      <LucideIcons.AlertCircle className="w-10 h-10 text-accent-pink mb-3" />
+                      <h3 className="text-lg font-bold text-white mb-2">
+                        {language === 'en' ? 'Trial Expired' : 'Periodo de prueba finalizado'}
+                      </h3>
+                      <p className="text-sm text-white/70 mb-5">
+                        {language === 'en' ? 'Your 7-day free trial has ended. Please upgrade your plan to continue using the AI tools.' : 'Tus 7 días de prueba han terminado. Por favor, mejora tu plan para seguir usando las herramientas de IA.'}
+                      </p>
+                      <Link href="/">
+                        <GlowButton variant="primary" className="py-2 px-6">
+                          {language === 'en' ? 'View Plans' : 'Ver Planes'}
+                        </GlowButton>
+                      </Link>
+                    </div>
+                  )}
+                </div>
               </>
             ) : (
               <AppHistory appId={app.id} onSelect={handleSelectHistory} />

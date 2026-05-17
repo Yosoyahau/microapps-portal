@@ -42,7 +42,7 @@ function LoginForm() {
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       if (session) {
-        router.push("/");
+        router.push("/dashboard");
       }
     });
 
@@ -67,7 +67,7 @@ function LoginForm() {
       });
       setLoading(false);
     } else {
-      router.push("/");
+      router.push("/dashboard");
     }
   };
 
