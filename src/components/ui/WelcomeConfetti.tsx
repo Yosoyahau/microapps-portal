@@ -20,11 +20,11 @@ export function WelcomeConfetti() {
       // Remove it so it only runs once
       localStorage.removeItem("showWelcome");
       
-      // Delay slightly for smooth rendering
+      // Show instantly
+      setStep("confetti");
       setTimeout(() => {
-        setStep("confetti");
         fireConfetti();
-      }, 3500);
+      }, 100);
     }
   }, []);
 

@@ -55,7 +55,7 @@ export default function LandingPage() {
           <span className="font-bold text-xl tracking-wide">MicroApps</span>
         </div>
         <div className="flex items-center gap-4">
-          <button 
+          <button
             onClick={() => setLanguage(language === 'en' ? 'es' : 'en')}
             className="px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-bold hover:bg-white/10 transition-colors"
           >
@@ -79,17 +79,14 @@ export default function LandingPage() {
 
       {/* Hero Section */}
       <main className="z-10 flex flex-col items-center text-center px-6 mt-32 max-w-4xl mx-auto w-full">
-        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-medium mb-8">
-          <Sparkles className="w-4 h-4" />
-          <span>Next.js 15 + AI Powered</span>
-        </div>
+
         <h1 className="text-5xl sm:text-6xl font-extrabold tracking-tight mb-6 leading-tight bg-gradient-to-br from-white to-white/40 bg-clip-text text-transparent">
           {t.heroTitle}
         </h1>
         <p className="text-lg sm:text-xl text-white/50 mb-10 max-w-2xl leading-relaxed">
           {t.heroSubtitle}
         </p>
-        
+
         {isAuthenticated ? (
           <Link href="/dashboard">
             <GlowButton variant="primary" className="px-8 py-4 text-lg">
@@ -112,7 +109,7 @@ export default function LandingPage() {
         <div className="w-full mt-32 mb-20" id="pricing">
           <h2 className="text-3xl font-bold mb-12 text-center">{t.pricingTitle}</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            
+
             {/* Free Trial */}
             <GlassCard className="p-8 flex flex-col relative overflow-hidden group hover:border-primary/50 transition-all">
               <div className="mb-8">
@@ -144,7 +141,7 @@ export default function LandingPage() {
                 Popular
               </div>
               <div className="absolute -inset-24 bg-primary/10 blur-3xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
-              
+
               <div className="mb-8 relative">
                 <h3 className="text-xl font-bold text-white/80 mb-2">{t.monthlyPlan}</h3>
                 <div className="flex items-baseline gap-2">
