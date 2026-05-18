@@ -50,6 +50,7 @@ export default function SignUpPage() {
       });
     } else {
       localStorage.setItem("showWelcome", "true");
+      document.cookie = "showWelcome=true; path=/; max-age=60";
       toast({
         title: language === "en" ? "Check your email to verify your account." : "Revisa tu correo para verificar tu cuenta.",
         type: "success",

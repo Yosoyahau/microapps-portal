@@ -6,27 +6,28 @@ import { useTranslation } from "@/hooks/useTranslation";
 import { X, Sparkles, Rocket, BarChart3, ShieldCheck } from "lucide-react";
 import { createPortal } from "react-dom";
 
-export function WelcomeConfetti() {
+export function WelcomeConfetti({ initialShow = false }: { initialShow?: boolean }) {
   const { language } = useTranslation();
-  const [step, setStep] = useState<"hidden" | "confetti" | "onboarding">("hidden");
+  const [step, setStep] = useState<"hidden" | "confetti" | "onboarding">(initialShow ? "confetti" : "hidden");
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
     
-    // Check if new user
+    // Check if new user via localStorage (fallback)
     const isNew = localStorage.getItem("showWelcome");
-    if (isNew === "true") {
+    if (isNew === "true" || initialShow) {
       // Remove it so it only runs once
       localStorage.removeItem("showWelcome");
+      document.cookie = "showWelcome=; path=/; max-age=0";
       
       // Show instantly
-      setStep("confetti");
+      if (step === "hidden") setStep("confetti");
       setTimeout(() => {
         fireConfetti();
       }, 100);
     }
-  }, []);
+  }, [initialShow]);
 
   const fireConfetti = () => {
     const duration = 4000;
@@ -64,11 +65,9 @@ export function WelcomeConfetti() {
     }, 250);
   };
 
-  if (!mounted || step === "hidden") return null;
+  if (step === "hidden") return null;
 
-  if (typeof document === 'undefined') return null;
-
-  return createPortal(
+  return (
     <>
       <div 
         className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-md flex items-center justify-center p-4"
@@ -184,7 +183,6 @@ export function WelcomeConfetti() {
         )}
 
       </div>
-    </>,
-    document.body
+    </>
   );
 }
